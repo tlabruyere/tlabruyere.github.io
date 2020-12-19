@@ -1,0 +1,9 @@
+---
+layout: post
+title:  "Start of the blog"
+categories: Notes
+author: tlabruyere
+tags: beginning
+---
+
+This should show up

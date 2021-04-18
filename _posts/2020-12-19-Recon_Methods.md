@@ -11,10 +11,15 @@ Nmap is an open-source network scanner that enumerates ports available on a targ
 Typical example:
 
 ```bash
-nmap -sC -sV -oN nmap/initial
+nmap -sC -sV -oN nmap/initial $IP
 ```
 
-`-sC` - Performs a script scan using the default set of scripts.
-`-sV` - Probe open ports to determine service/version info
-`-oN` - Direct to file
-
+- `-sV`	- Attempts to determine the version of the services running
+- `-p`  - <x> or -p-	Port scan for port <x> or scan all ports
+- `-Pn` - Disable host discovery and just scan for open ports
+- `-A`  - OS and version detection, executes in-build scripts for further enumeration 
+- `-sC` - with the default nmap scripts
+- `-v`  - Verbose mode
+- `-sU` - UDP port scan
+- `-sS` - TCP SYN port scan
+- `-oN` - Direct to file
